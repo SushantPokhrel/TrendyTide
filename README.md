@@ -9,5 +9,8 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 =======
 # TrendyTide
-A shopping cart application that uses data from api server of fakestoreapi.
+Trendy-tidee is a shopping cart application that uses data from api server of fakestoreapi.
+I have used react-router-dom for routing,context api for state management.
+Browser features like localstorage and session storage for login and sign up authentication  prototype.
+You can clone the repo for improvement locally.
 >>>>>>> origin/main
