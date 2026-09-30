@@ -1,10 +1,7 @@
-import React from "react";
-export default function CartItem({
-  item,
-  handleRemove,
-  cartItem,
-  setCartItem,
-}) {
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../utils/auth";
+export default function CartItem({ item, handleRemove, setCartItem }) {
+  const navigate = useNavigate();
   function handleInr(id, e) {
     e.preventDefault();
     setCartItem((prev) => {
@@ -20,6 +17,13 @@ export default function CartItem({
         return item;
       });
     });
+  }
+  function handlePurchase() {
+    if (!isLoggedIn()) {
+      navigate("/Login", { state: { from: { pathname: "/Cart" } } });
+      return;
+    }
+    navigate("/Billing", { state: { product: item } });
   }
   function handleDcr(id, e) {
     e.preventDefault();
@@ -57,6 +61,13 @@ export default function CartItem({
                 >
                   Remove
                 </a>
+                <button
+                  type="button"
+                  className="item-purchase-btn"
+                  onClick={handlePurchase}
+                >
+                  Purchase this item
+                </button>
               </div>
               <div>
                 <a

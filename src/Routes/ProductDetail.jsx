@@ -1,11 +1,13 @@
 import React from "react";
 import { DetailsContext } from "../Contexts/ProductDetails";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../utils/auth";
 
 export default function ProductDetail() {
   const { id, setCartId, setCartProduct, newproducts } =
     React.useContext(DetailsContext);
   const [singleProduct, setSingleProduct] = React.useState(null);
+  const navigate = useNavigate();
   React.useEffect(() => {
     const newProduct = newproducts.find((product) => product.id === id);
     if (newProduct) {
@@ -19,6 +21,12 @@ export default function ProductDetail() {
       .catch((error) => console.error(error));
   }, [id, newproducts]);
   function handleSubmit(product) {
+    if (!isLoggedIn()) {
+      navigate("/Login", {
+        state: { from: { pathname: "/Shop/ProductDetail" } },
+      });
+      return;
+    }
     if (product.id.toString().startsWith("newproduct-")) {
       setCartId(null);
       setCartProduct(product);
@@ -52,13 +60,15 @@ export default function ProductDetail() {
         <div className="fake-rating">
           <span className="star">⭐</span> <span>4.5/5</span>
         </div>
-        <Link
+        <button
           className="add-to-cart-btn"
-          onClick={() => handleSubmit(singleProduct)}
-          to="/Cart"
+          onClick={() => {
+            handleSubmit(singleProduct);
+            if (isLoggedIn()) navigate("/Cart");
+          }}
         >
           Add to Cart
-        </Link>
+        </button>
         <Link className="back-button" to="/Shop">
           Back to Products
         </Link>

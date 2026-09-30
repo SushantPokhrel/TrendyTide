@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-
-export default function CartSummary({total,cartItem}) {
+export default function CartSummary({ total, cartItem }) {
   return (
     <div className="div-summary">
       <h3>Cart Summary</h3>
@@ -16,9 +14,9 @@ export default function CartSummary({total,cartItem}) {
         <p>Total items: </p>
         <span className="total-sum"> {cartItem.length} </span>
       </div>
-      <Link to="/Login" className="btn-purchase">
-        Proceed to Purchase
-      </Link>
+      <p className="purchase-note">
+        Choose “Purchase this item” beside an item to continue.
+      </p>
     </div>
   );
 }

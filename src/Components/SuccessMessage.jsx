@@ -1,18 +1,17 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { CURRENT_USER_KEY } from "../utils/auth";
 const SuccessMessage = (props) => {
   return (
     <div className="login-info-ui">
       <div className="message-box">
         <h2 className="heading-message-box">Successfully Logged In!</h2>
-        <p className="p-message-box">Welcome ! You're now logged in.</p>
+        <p className="p-message-box">Welcome! You are now logged in.</p>
         <p>
           <a
             href="#"
             onClick={() => {
-              // sessionStorage.clear("userDetails");
+              localStorage.removeItem(CURRENT_USER_KEY);
               props.setIsSubmitted((prev) => !prev);
-              sessionStorage.setItem("isSubmitted", JSON.stringify(false));
             }}
             className="btn-logOut"
           >
