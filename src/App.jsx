@@ -11,6 +11,7 @@ import Footer from "./Components/Footer";
 import About from "./Routes/About";
 import ScrollToTopButton from "./Components/ScrollTop";
 import BillingForm from "./Components/Billing";
+import Admin from "./Routes/Admin";
 function App() {
   return (
     <DetailsProvider>
@@ -25,6 +26,7 @@ function App() {
             <Route path="/Cart" element={<Cart />} />
             <Route path="/About" element={<About />} />
             <Route path="/Billing" element={<BillingForm />} />
+            <Route path="/add-product" element={<Admin />} />
           </Routes>
           <Footer />
         </BrowserRouter>

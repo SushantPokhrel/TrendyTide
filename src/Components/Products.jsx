@@ -3,39 +3,37 @@ import { DetailsContext } from "../Contexts/ProductDetails";
 import { Link } from "react-router-dom";
 
 export default function Products() {
-  const { setId } = React.useContext(DetailsContext);
+  const { setId, newproducts } = React.useContext(DetailsContext);
   const [category, setCategory] = React.useState("All");
   const [data, setData] = React.useState([]);
   const [priceRange, setPriceRange] = React.useState(null); // New state to track price range
 
   React.useEffect(() => {
-    // Fetch data based on category and apply price filter afterward
-    // the price filteration is based on current category of products
     const fetchData = async () => {
-      let url = `https://fakestoreapi.com/products`;
-
-      if (category !== "All") {
-        url = `https://fakestoreapi.com/products/category/${category}`;
-      }
-
-      const response = await fetch(url);
-      const json = await response.json();
-
-      if (priceRange) {
-        // Apply price filtering on fetched data
-        const filteredData = json.filter((item) =>
-          priceRange === "low" ? item.price < 100 : item.price >= 100
-        );
-        if (filteredData.length > 0) {
-          setData(filteredData);
-        } else alert("No products available in that range "); //runs when data filtered is empty
-      } else {
-        setData(json); // If no price filter is applied, set fetched data directly
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        if (!response.ok) throw new Error("Unable to load products");
+        const apiProducts = await response.json();
+        setData(filterProducts([...apiProducts, ...newproducts]));
+      } catch (error) {
+        console.error("Error fetching products", error);
+        setData(filterProducts(newproducts));
       }
     };
 
     fetchData();
-  }, [category, priceRange]);
+
+    function filterProducts(products) {
+      return products.filter((item) => {
+        const matchesCategory =
+          category === "All" || item.category === category;
+        const matchesPrice =
+          !priceRange ||
+          (priceRange === "low" ? item.price < 100 : item.price >= 100);
+        return matchesCategory && matchesPrice;
+      });
+    }
+  }, [category, priceRange, newproducts]);
 
   function handleCategoryClick(category) {
     setCategory(category);

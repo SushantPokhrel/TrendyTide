@@ -34,6 +34,8 @@ export default function Nav() {
             </Link>
             <Link className="links" to="/About">
               <li>About</li>
+            </Link><Link className="links" to="/add-product">
+              <li>Add Products</li>
             </Link>
           </ul>
         </div>

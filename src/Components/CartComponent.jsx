@@ -3,14 +3,27 @@ import { DetailsContext } from "../Contexts/ProductDetails";
 import CartItems from "./CartItems";
 import CartSummary from "./CartSummary";
 export default function CartComponent() {
-  const { cartId, total, setTotal } = React.useContext(DetailsContext);
+  const { cartId, cartProduct, total, setTotal } =
+    React.useContext(DetailsContext);
   const [cartItem, setCartItem] = React.useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
-      : []
+      : [],
   );
 
   React.useEffect(() => {
+    if (cartProduct) {
+      setCartItem((prev) => {
+        const itemExists = prev.find((item) => item.id === cartProduct.id);
+        if (itemExists) return prev;
+        return [
+          ...prev,
+          { ...cartProduct, basePrice: cartProduct.price, quantity: 1 },
+        ];
+      });
+      return;
+    }
+
     if (cartId) {
       fetch(`https://fakestoreapi.com/products/${cartId}`)
         .then((res) => res.json())
@@ -29,7 +42,7 @@ export default function CartComponent() {
         })
         .catch((error) => console.error("Error fetching product", error));
     }
-  }, [cartId]);
+  }, [cartId, cartProduct]);
 
   React.useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItem));
@@ -46,7 +59,7 @@ export default function CartComponent() {
         {cartItem.length ? <h2>Your Cart Items</h2> : null}
         <CartItems cartItem={cartItem} setCartItem={setCartItem} />
       </div>
-      <CartSummary cartItem={cartItem} total={total}/>
+      <CartSummary cartItem={cartItem} total={total} />
     </div>
   );
 }
