@@ -30,7 +30,7 @@ export default function Form() {
       // Sign In: Save user details in sessionStorage and navigate to the new page
       sessionStorage.setItem("userDetails", JSON.stringify(values));
       sessionStorage.setItem("isSubmitted", JSON.stringify(true)); // Set isSubmitted to true in sessionStorage
-      alert("Sign In Successful!");
+      alert("Sign Up Successful!");
       setIsSubmitted(true);
       localStorage.getItem("cartItems") &&
       JSON.parse(localStorage.getItem("cartItems")).length
@@ -64,7 +64,7 @@ export default function Form() {
   }
 
   function handleForget() {
-    alert("You are Cooked Bro!");
+    alert("Could not process at the moment");
   }
 
   function handleChange(e) {
@@ -88,7 +88,7 @@ export default function Form() {
         />
       ) : (
         <div className="login">
-          <h1>{signIn ? "Customer Sign In" : "Customer Log In"}</h1>
+          <h1>{signIn ? "Customer Sign Up" : "Customer Log In"}</h1>
           <form onSubmit={handleSubmit} className="form-login">
             <div className="input-div">
               <label htmlFor="email" className="label-text">
@@ -137,7 +137,7 @@ export default function Form() {
               </a>
             </div>
             <button type="submit" className="btn-primary">
-              {signIn ? "Sign In" : "Login"}
+              {signIn ? "Sign Up" : "Login"}
             </button>
           </form>
           {signIn ? (
@@ -151,7 +151,7 @@ export default function Form() {
             <p>
               Don't have an account ?{" "}
               <button className="btn-secondary" onClick={handleSignIn}>
-                Sign In{" "}
+                Sign Up{" "}
               </button>
             </p>
           )}
